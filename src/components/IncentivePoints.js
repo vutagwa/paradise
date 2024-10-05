@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { auth } from './firebase'; 
 
-// Define the incentive structure
 const incentives = {
   "Household E-Waste": {
     "IT and Telecommunications Equipment": 250,
@@ -23,23 +24,61 @@ const incentives = {
   },
 };
 
-const IncentiveSubmission = () => {
+const IncentiveSubmission = ({ userId }) => {
   const [userVerified, setUserVerified] = useState(false);
   const [category, setCategory] = useState('');
   const [receipt, setReceipt] = useState(null);
   const [message, setMessage] = useState('');
   const [totalPoints, setTotalPoints] = useState(0);
-  const [transactionHistory, setTransactionHistory] = useState([]); // State for transaction history
-  const [dialogVisible, setDialogVisible] = useState(false); // State for dialog visibility
-  const [redeemMethod, setRedeemMethod] = useState(''); // State for redeem method
+  const [transactionHistory, setTransactionHistory] = useState([]);
+  const [dialogVisible, setDialogVisible] = useState(false);
+  const [passkey, setPasskey] = useState('');
+  const [passkeyError, setPasskeyError] = useState('');
+  const [storedPasskey, setStoredPasskey] = useState(''); // State for storing the passkey
 
-    // Dropzone configuration
- const onDrop = (acceptedFiles) => {
-    setReceipt(acceptedFiles[0]); // Set the first accepted file
+  // Firestore reference
+  const db = getFirestore();
+
+  useEffect(() => {
+    const fetchUserPasskey = async () => {
+      const user = auth.currentUser; // Get the current user
+      if (!user) {
+        console.error("No user is logged in.");
+        return; // Exit if there is no user
+      }
+
+      const userId = user.uid; // Get user ID
+      const docRef = doc(db, "users", userId); // Reference the document
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        setStoredPasskey(docSnap.data().passkey); // Store the passkey in state
+      } else {
+        console.error("No such document!");
+      }
     };
-    
+
+    fetchUserPasskey();
+  }, [db]);
+
+  const onDrop = (acceptedFiles) => {
+    setReceipt(acceptedFiles[0]);
+  };
+  
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
-    
+  
+  const handleVerifyAccount = () => {
+    if (passkey === storedPasskey) {
+      setUserVerified(true);
+      setMessage('Successful verification!');
+      setPasskeyError('');
+    } else {
+      setPasskeyError('Invalid passkey. Please try again.');
+    }
+    setPasskey('');
+    setDialogVisible(false);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -71,7 +110,7 @@ const IncentiveSubmission = () => {
         return incentives[key][category];
       }
     }
-    return 0; // Default to 0 if category is not found
+    return 0;
   };
 
   const validateReceipt = async (receipt) => {
@@ -80,7 +119,6 @@ const IncentiveSubmission = () => {
 
   const addPointsToAccount = (points) => {
     setTotalPoints(prevPoints => prevPoints + points);
-    console.log(`Added ${points} points to user's account.`);
   };
 
   const logTransaction = (message) => {
@@ -94,7 +132,7 @@ const IncentiveSubmission = () => {
 
   const handleRedeemPoints = () => {
     if (totalPoints >= 200) {
-      setDialogVisible(true); // Show the dialog if points are sufficient
+      setDialogVisible(true);
     } else {
       setMessage('Not enough points to redeem. You need at least 200 points.');
     }
@@ -102,14 +140,14 @@ const IncentiveSubmission = () => {
 
   const confirmRedeem = (method) => {
     if (totalPoints > 0) {
-      const redeemedPoints = totalPoints; // Redeem all points
-      setTotalPoints(0); // Reset points
+      const redeemedPoints = totalPoints;
+      setTotalPoints(0);
       logTransaction(`Redeemed ${redeemedPoints} points to ${method}.`);
       setMessage(`Successfully redeemed ${redeemedPoints} points to ${method}.`);
     } else {
       setMessage('No points to redeem.');
     }
-    setDialogVisible(false); // Hide the dialog
+    setDialogVisible(false);
   };
 
   return (
@@ -120,11 +158,7 @@ const IncentiveSubmission = () => {
         <div>
           <label>
             Verify Account:
-            <input
-              type="checkbox"
-              checked={userVerified}
-              onChange={() => setUserVerified(!userVerified)}
-            />
+            <button type="button" onClick={() => setDialogVisible(true)}>Enter Passkey</button>
           </label>
         </div>
         <div>
@@ -132,24 +166,29 @@ const IncentiveSubmission = () => {
             Select Category:
             <select value={category} onChange={(e) => setCategory(e.target.value)}>
               <option value="">Select</option>
-              {/* Your existing category options */}
+              {Object.keys(incentives).map((key) => (
+                Object.keys(incentives[key]).map((subKey) => (
+                  <option key={subKey} value={subKey}>{subKey}</option>
+                ))
+              ))}
             </select>
           </label>
         </div>
         <div {...getRootProps({ className: 'dropzone' })}>
           <input {...getInputProps()} />
-          <p>Drag 'n' drop your receipt here, or click to select files (from your computer, Google Drive, Dropbox, etc.)</p>
+          <p>Drag 'n' drop your receipt here, or click to select files</p>
           <p>{receipt ? `Selected file: ${receipt.name}` : 'No file selected'}</p>
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit">Submit</button> 
         <button type="button" onClick={handleRedeemPoints} style={{ marginLeft: '10px' }}>Redeem Points</button>
       </form>
       {message && <p className="message">{message}</p>}
+      {passkeyError && <p className="error">{passkeyError}</p>}
       
       {/* Transaction History Section */}
       <h3>Transaction History</h3>
       <ul>
-        {transactionHistory.map(transaction => (
+        {transactionHistory.map(transaction => ( 
           <li key={transaction.id}>
             {transaction.date}: {transaction.message}
           </li>
@@ -159,9 +198,14 @@ const IncentiveSubmission = () => {
       {/* Redeem Method Dialog */}
       {dialogVisible && (
         <div className="dialog">
-          <h3>Select Redeem Method</h3>
-          <button onClick={() => confirmRedeem('M-Pesa')}>M-Pesa</button>
-          <button onClick={() => confirmRedeem('Bank Account')}>Bank Account</button>
+          <h3>Enter Your Passkey</h3>
+          <input 
+            type="text" 
+            value={passkey} 
+            onChange={(e) => setPasskey(e.target.value)} 
+            placeholder="Passkey" 
+          />
+          <button onClick={handleVerifyAccount}>Verify</button>
           <button onClick={() => setDialogVisible(false)}>Cancel</button>
         </div>
       )}

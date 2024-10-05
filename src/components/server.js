@@ -2,12 +2,12 @@ const express = require('express');
 const multer = require('multer');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const identifyEWaste = require('./eWasteIdentifier'); // Import the identification function
+const identifyEWaste = require('./identify-ewaste'); // Import the identification function
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: '../components/Assets/uploads' });
 
 app.post('/api/identify-ewaste', upload.single('image'), async (req, res) => {
   try {
