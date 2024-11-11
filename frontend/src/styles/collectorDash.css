@@ -1,0 +1,132 @@
+/* General Dashboard Styles */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main-content {
+  padding: 20px;
+  margin-top: 40px;
+  margin-left: 10px;
+  background-color: #f0f4f1; /* Light greenish background for eco-friendly feel */
+  flex-grow: 1;
+  overflow-y: auto;
+  font-family: 'Arial', sans-serif;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+.header {
+  position: fixed;
+  top: 14.6%;
+  left: 2%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #3b8e3a; /* Earthy green color */
+  padding: 10px 20px;
+  color: white;
+  z-index: 10;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar {
+  width: 250px;
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+}
+
+.header-items {
+  display: flex;
+  gap: 15px;
+}
+
+.notification-bell {
+  font-size: 1.5rem;
+}
+
+.profile-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.sidebar {
+  width: 20%;
+  background-color: #3b8e3a; /* Darker green to contrast with the main content */
+  padding-top: 20px;
+  position: fixed;
+  height: calc(100vh - 60px);
+  margin-left: -23%;
+  margin-top: 1.6%;
+  color: white;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  background-color: #3b8e3a;
+}
+
+.sidebar ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  transition: 0.3s ease-in-out;
+}
+
+.sidebar ul li a:hover {
+  background-color: #74e27c;
+  cursor: pointer;
+}
+
+.sidebar ul li a svg {
+  margin-right: 10px;
+  color: #c5e1a5; /* Light green for icons */
+}
+
+.sidebar ul li a:hover svg {
+  color: #ffffff; /* White icons on hover */
+}
+
+.section h2 {
+  color: #4caf50; /* Matching green for section headings */
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.section p {
+  font-size: 1rem;
+  color: #555;
+}
+
+.section img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Footer */
+.footer {
+  background-color: #4caf50;
+  padding: 10px;
+  text-align: center;
+  color: rgb(26, 23, 23);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}

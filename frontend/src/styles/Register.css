@@ -1,0 +1,101 @@
+.register-container {
+    background-image: url('../components/assets/loginBG.png'); /* Adjust the path if necessary */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+.register-container .register-form {
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    width: 400px; /* Adjust width as needed */
+    height: 89%;
+  }
+  
+.register-container .register-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: -15px;
+  }
+  
+.register-container .register-form input {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+.register-container .register-form button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #079c2c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .15s ease-in-out;
+  }
+.register-container .register-form .btn{
+    width: 40%;
+    padding: 10px;
+    margin-right: 2px;
+    margin-left: 10px;
+    background-color: #079c2c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .15s ease-in-out;
+}  
+.register-container .register-form button:hover {
+    background-color: #2ce44b;
+  }
+  /* Container for Login */
+.login-container {
+  background-image: url('../components/assets/loginBG.png');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form {
+  background-color: rgba(255, 255, 255, 0.9); /* Different transparency for distinction */
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  width: 300px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333; /* Optional color change */
+}
+
+input, button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #218838;
+}

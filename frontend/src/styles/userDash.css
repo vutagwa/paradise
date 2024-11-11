@@ -1,0 +1,169 @@
+/* Container for the whole dashboard */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;  /* Ensure no overflow is being cut off */
+}
+
+/* Header at the top */
+.header {
+  width: 100%;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  z-index: 10; /* Header on top */
+}
+
+/* Layout for sidebar and main content */
+.user-dashboard {
+  display: flex;
+  flex: 1;
+  height: calc(100vh - 60px); /* Subtract the height of the header */
+  margin-top: 60px; /* Space for header */
+  overflow-x: hidden; /* Avoid horizontal scroll */
+}
+
+/* Sidebar styling */
+.sidebar {
+  width: 20%;
+  background-color: #4caf50;
+  padding-top: 20px;
+  position: fixed;
+  top: 60px; /* Start after header */
+  left: 0;
+  height: calc(100vh - 60px); /* Full height minus header height */
+  z-index: 5; /* Sidebar should be below header but on top of content */
+  overflow-y: auto; /* Make sure sidebar content is scrollable */
+}
+
+/* Sidebar content styling */
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  background-color: #4caf50;
+}
+
+.sidebar ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  transition: 0.3s ease-in-out;
+}
+
+.sidebar ul li a:hover {
+  background-color: #74e27c;
+  cursor: pointer;
+}
+
+.sidebar ul li a svg {
+  margin-right: 10px;
+  color: #c5e1a5;
+}
+
+.sidebar ul li a:hover svg {
+  color: #ffffff;
+}
+
+/* Main content styling */
+.main-content {
+  margin-left: 20%;
+  margin-top: 60px; /* Space for header */
+  padding: 20px;
+  width: 80%;
+  background-color: #f4f4f4;
+  overflow-y: auto;
+}
+
+/* Search Bar Styling */
+.search-bar {
+  width: 250px;
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+}
+
+.header-items {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.notification-bell {
+  font-size: 1.5rem;
+}
+
+.profile-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* Mobile devices */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    position: relative;
+    height: auto;
+    margin-top: 0;
+    margin-left: 0;
+  }
+
+  .main-content {
+    margin-left: 0;
+    margin-top: 20px;
+    width: 100%;
+  }
+
+  .header {
+    padding: 10px 15px;
+    flex-direction: column;
+  }
+
+  .search-bar {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .header-items {
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+/* Tablet devices */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .sidebar {
+    width: 25%;
+  }
+
+  .main-content {
+    margin-left: 25%;
+    width: 75%;
+  }
+}
+
+/* Large devices (desktops and above) */
+@media (min-width: 1025px) {
+  .sidebar {
+    width: 20%;
+  }
+
+  .main-content {
+    margin-left: 20%;
+    width: 80%;
+  }
+}

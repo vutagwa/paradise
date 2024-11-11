@@ -1,0 +1,66 @@
+.admin-dashboard {
+  padding: 20px;
+  background-color: #f8f9fa; /* Light grey background for better visibility */
+  color: #343a40; /* Dark text for contrast */
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tabs button {
+  padding: 10px 20px;
+  background-color: #e9ecef; /* Light grey */
+  border: 1px solid #adb5bd; /* Medium grey border for visibility */
+  color: #495057; /* Dark grey text for readability */
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.tabs button:hover {
+  background-color: #007bff; /* Blue on hover */
+  color: #fff;
+}
+
+.tabs button.active {
+  background-color: #007bff; /* Highlighted blue */
+  color: #fff;
+}
+
+.tab-content {
+  border: 1px solid #ced4da; /* Light grey border for definition */
+  padding: 20px;
+  background-color: #ffffff; /* White background for content */
+  color: #495057; /* Dark grey text */
+}
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #e9ecef; /* Light background */
+}
+
+.dashboard-container {
+  display: flex;
+  flex: 1;
+  margin-left: 250px; /* Space for the sidebar */
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f8f9fa; /* Light grey background for readability */
+  color: #343a40;
+  border-left: 1px solid #ddd; /* Left border to separate sidebar */
+}
+
+h1 {
+  color: #4CAF50; /* Green for headings */
+}
+
+p {
+  margin: 10px 0;
+  line-height: 1.6;
+}
